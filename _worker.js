@@ -824,7 +824,7 @@ function Clash订阅配置文件热补丁(Clash_原始订阅内容, uuid = null,
     // 如果 ECH 启用且 HOSTS 有效，添加 nameserver-policy
     if (ECH启用 && HOSTS.length > 0) {
         // 生成 HOSTS 的 nameserver-policy 条目
-        const hostsEntries = HOSTS.map(host => `    "${host}":\n      - tls://8.8.8.8\n      - https://doh.cmliussss.com/CMLiussss\n      - ${ECH_DOH}`).join('\n');
+        const hostsEntries = HOSTS.map(host => `    "${host}":\n      - tls://223.5.5.5\n      - tls://8.8.8.8\n      - https://doh.cmliussss.com/CMLiussss\n      - ${ECH_DOH}`).join('\n');
 
         // 检查是否存在 nameserver-policy:
         const hasNameserverPolicy = /^\s{2}nameserver-policy:\s*(?:\n|$)/m.test(clash_yaml);
@@ -998,7 +998,8 @@ function Clash订阅配置文件热补丁(Clash_原始订阅内容, uuid = null,
     return processedLines.join('\n');
 }
 
-function Singbox订阅配置文件热补丁(sb_json_text, uuid = null, fingerprint = "chrome", ech_config = null) {
+function Singbox订阅配置文件热补丁(SingBox_原始订阅内容, uuid = null, fingerprint = "chrome", ech_config = null) {
+    const sb_json_text = SingBox_原始订阅内容.replace('1.1.1.1', '8.8.8.8').replace('1.0.0.1', '8.8.4.4');
     try {
         let config = JSON.parse(sb_json_text);
 
@@ -1165,6 +1166,7 @@ function Singbox订阅配置文件热补丁(sb_json_text, uuid = null, fingerpri
                     if (ech_config) {
                         outbound.tls.ech = {
                             enabled: true,
+                            //query_server_name: "cloudflare-ech.com",// 等待 1.13.0+ 版本上线
                             config: `-----BEGIN ECH CONFIGS-----\n${ech_config}\n-----END ECH CONFIGS-----`
                         };
                     }
