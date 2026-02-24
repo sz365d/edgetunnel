@@ -247,7 +247,7 @@ export default {
                                         优选API.push(元素);
                                     } else {
                                         const subMatch = 元素.match(/sub\s*=\s*([^\s&#]+)/i);
-                                        if (subMatch) {
+                                        if (subMatch && subMatch[1].trim().includes('.')) {
                                             优选API.push('sub://' + subMatch[1].trim());
                                         } else if (元素.toLowerCase().startsWith('https://')) {
                                             优选API.push(元素);
